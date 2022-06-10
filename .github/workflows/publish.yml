@@ -20,16 +20,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
-          # list of Docker images to use as base name for tags
           images: |
             ${{ env.IMAGE_NAME }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # generate Docker tags based on the following events/attributes
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
