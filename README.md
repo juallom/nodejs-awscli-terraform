@@ -1,3 +1,15 @@
 ```shell
-docker run -it --name worker -v "$(pwd)"/target:/workspace juallom/nodejs-aws-cli-terraform:latest
+docker pull ghcr.io/juallom/nodejs-awscli-terraform:latest
+docker tag ghcr.io/juallom/nodejs-awscli-terraform:latest build-image
+docker run -it -v ${PWD}/target:/workspace --rm --name builder build-image bash
+```
+
+# Delete all containers
+```shell
+docker rm -vf $(docker ps -aq)
+```
+
+# Delete all images
+```shell
+docker rmi -f $(docker images -aq)
 ```

@@ -30,5 +30,3 @@ RUN rm -rf ./aws ./awscli.zip
 
 RUN mkdir /workspace
 WORKDIR /workspace
-
-ENTRYPOINT ["/bin/bash"]

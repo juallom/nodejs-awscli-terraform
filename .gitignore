@@ -12,3 +12,5 @@
 
 # Mac/OSX
 .DS_Store
+
+target/
