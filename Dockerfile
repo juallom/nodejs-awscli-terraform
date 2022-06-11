@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 
-ENV RUNNING_IN_DOCKER true
+SHELL ["/bin/bash", "-c"]
+RUN touch ~/.bashrc && chmod +x ~/.bashrc
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -22,20 +23,17 @@ RUN unzip awscli.zip
 RUN ./aws/install
 RUN rm -rf ./aws ./awscli.zip
 
-# Install NVM
-RUN curl -fsSL "https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh" | bash
+# Install NVM & Node LTS
+RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh" | bash
+RUN . ~/.nvm/nvm.sh && source ~/.bashrc && nvm install --lts
 
 # Install zsh
 RUN mkdir -p ~/.antigen && \
     curl -L git.io/antigen > ~/.antigen/antigen.zsh
-
 COPY .dockershell.sh /root/.zshrc
 RUN /bin/bash -c "chown -R root:root ~/.antigen ~/.zshrc"
 RUN /bin/zsh ~/.zshrc
 
-# Install Node.js LTS and NPM
-CMD /bin/bash -c "source ~/.bashrc && nvm install --lts"
-
 WORKDIR /workspace
 
-CMD /bin/zsh
+ENTRYPOINT ["/bin/zsh"]
